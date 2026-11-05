@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حقيبة المهندس الذكية - ECP 203</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==================== الصفحة الرئيسية المطابقة للصورة بالظبط ==================== */
+        #dashboard-view {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 45px 20px 30px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .main-header-title {
+            color: #1a73e8;
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .main-subtitle {
+            color: #6c757d;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0 0 28px 0;
+        }
+
+        .section-prompt {
+            color: #343a40;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 28px 0;
+        }
+
+        /* شبكة الكروت الثلاثة */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 45px;
+        }
+
+        @media (max-width: 820px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        .portal-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 35px 22px 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.09);
+        }
+
+        .portal-card.card-red { border-top: 5px solid #dc3545; }
+        .portal-card.card-green { border-top: 5px solid #00796b; }
+        .portal-card.card-blue { border-top: 5px solid #1a73e8; }
+
+        .card-icon {
+            width: 58px;
+            height: 58px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portal-card h3 {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 14px 0;
+        }
+
+        .card-red h3 { color: #dc3545; }
+        .card-green h3 { color: #00796b; }
+        .card-blue h3 { color: #1a73e8; }
+
+        .portal-card p {
+            font-size: 13.5px;
+            color: #6c757d;
+            line-height: 1.75;
+            margin: 0 0 26px 0;
+            font-weight: 600;
+        }
+
+        .enter-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 22px;
+            border-radius: 7px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            text-decoration: none;
+            min-width: 175px;
+        }
+
+        .enter-btn:hover { opacity: 0.92; }
+
+        .btn-red { background-color: #dc3545; }
+        .btn-green { background-color: #00796b; }
+        .btn-blue { background-color: #1a73e8; }
+
+        .arrow-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 3px;
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .main-footer-divider {
+            border: none;
+            border-top: 1.5px dashed #ced4da;
+            margin: 10px auto 30px;
+            max-width: 900px;
+        }
+
+        .dev-footer {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .dev-footer .eng-by {
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .dev-footer .eng-name {
+            font-size: 21px;
+            font-weight: 800;
+            color: #1a73e8;
+            margin: 0 0 5px 0;
+        }
+
+        .dev-footer .eng-role {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #6c757d;
+            margin: 0 0 10px 0;
+        }
+
+        .dev-footer .eng-mail {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #212529;
+            margin: 0;
+            direction: ltr;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ==================== شاشة عرض القسم المختار ==================== */
+        #tool-viewer {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+            background: #f0f2f5;
+        }
+
+        .viewer-topbar {
+            background: #ffffff;
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        .back-home-btn {
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .back-home-btn:hover { background: #1557b0; }
+
+        .viewer-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1a73e8;
+            margin: 0;
+        }
+
+        .tool-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            display: none;
+            background: #f0f2f5;
+        }
+
+        .tool-iframe.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== الواجهة الرئيسية (نفس الصورة بالظبط) ==================== -->
+    <div id="dashboard-view">
+        
+        <h1 class="main-header-title">
+            <span>حقيبة المهندس الذكية - ECP 203</span>
+            <span>🏗️</span>
+        </h1>
+        <p class="main-subtitle">النظام الهندسي المتكامل لحسابات الخرسانة واستبدال وتقطيع حديد التسليح</p>
+        
+        <p class="section-prompt">اختر القسم الهندسي للبدء في الحسابات:</p>
+
+        <div class="cards-container">
+            
+            <!-- الكارت الأول (يمين): مستشار استبدال الحديد -->
+            <div class="portal-card card-red">
+                <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                    <div class="card-icon">
+                        <svg width="52" height="52" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="14" y="6" width="12" height="52" rx="2" fill="#e9ecef" stroke="#000" stroke-width="3"/>
+                            <path d="M14 14L26 20M14 26L26 32M14 38L26 44M14 50L26 54" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+                            <rect x="38" y="6" width="12" height="52" rx="2" fill="#e9ecef" stroke="#000" stroke-width="3"/>
+                            <path d="M38 14L50 20M38 26L50 32M38 38L50 44M38 50L50 54" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="26" y1="18" x2="38" y2="18" stroke="#000" stroke-width="3"/>
+                            <line x1="26" y1="32" x2="38" y2="32" stroke="#000" stroke-width="3"/>
+                            <line x1="26" y1="46" x2="38" y2="46" stroke="#000" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <h3>مستشار استبدال الحديد</h3>
+                    <p>مستشار استبدال أقطار الحديد وتوزيع الأسياخ في القطاعات مع الرسم البصري لمراجعة التعشيش والمسافات.</p>
+                </div>
+                <button class="enter-btn btn-red" onclick="openSection('frame-replace', 'مستشار استبدال الحديد وتوزيع القطاعات')">
+                    <span>دخول واجهة الاستبدال</span>
+                    <span class="arrow-badge">⬅</span>
+                </button>
+            </div>
+
+            <!-- الكارت الثاني (وسط): قسم الخرسانة ومكوناتها -->
+            <div class="portal-card card-green">
+                <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                    <div class="card-icon">
+                        <svg width="54" height="54" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 38L28 30L54 38L36 46L10 38Z" fill="#d86c3c" stroke="#000" stroke-width="2.8" stroke-linejoin="round"/>
+                            <path d="M10 38V48L36 56V46L10 38Z" fill="#b85226" stroke="#000" stroke-width="2.8" stroke-linejoin="round"/>
+                            <path d="M54 38V48L36 56V46L54 38Z" fill="#943c16" stroke="#000" stroke-width="2.8" stroke-linejoin="round"/>
+                            <path d="M14 22L32 14L50 22L32 30L14 22Z" fill="#ef7e4a" stroke="#000" stroke-width="2.8" stroke-linejoin="round"/>
+                            <path d="M14 22V32L32 40V30L14 22Z" fill="#d86c3c" stroke="#000" stroke-width="2.8" stroke-linejoin="round"/>
+                            <path d="M50 22V32L32 40V30L50 22Z" fill="#b85226" stroke="#000" stroke-width="2.8" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>قسم الخرسانة ومكوناتها</h3>
+                    <p>حصر كميات الخرسانة (أسمنت، رمل، سن، مياه)، تقدير أوزان الحديد الاسترشادية، حساب عدد العربيات والتكلفة، وتقطيع الحديد.</p>
+                </div>
+                <button class="enter-btn btn-green" onclick="openSection('frame-concrete', 'قسم الخرسانة ومكوناتها وتقطيع الحديد')">
+                    <span>دخول واجهة الخرسانة</span>
+                    <span class="arrow-badge">⬅</span>
+                </button>
+            </div>
+
+            <!-- الكارت الثالث (يسار): حاسبة أوزان الحديد -->
+            <div class="portal-card card-blue">
+                <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                    <div class="card-icon">
+                        <svg width="52" height="52" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 10L54 54H10V10Z" fill="#ffc107" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+                            <path d="M18 28L36 46H18V28Z" fill="#fff" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+                            <line x1="10" y1="20" x2="15" y2="20" stroke="#000" stroke-width="2.5"/>
+                            <line x1="10" y1="28" x2="14" y2="28" stroke="#000" stroke-width="2.5"/>
+                            <line x1="10" y1="36" x2="15" y2="36" stroke="#000" stroke-width="2.5"/>
+                            <line x1="10" y1="44" x2="14" y2="44" stroke="#000" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    <h3>حاسبة أوزان الحديد</h3>
+                    <p>أدوات الشوب دروينج السريعة لحساب طول الوصلة، توزيع عدد الأسياخ، والجدول القياسي لأوزان وأعداد الحديد.</p>
+                </div>
+                <button class="enter-btn btn-blue" onclick="openSection('frame-weights', 'أدوات الشوب دروينج وحاسبة أوزان الحديد')">
+                    <span>دخول حاسبة الأوزان</span>
+                    <span class="arrow-badge">⬅</span>
+                </button>
+            </div>
+
+        </div>
+
+        <hr class="main-footer-divider">
+
+        <div class="dev-footer">
+            <p class="eng-by">🛠️ ENGINEERED & DEVELOPED BY</p>
+            <p class="eng-name">Eng. Ahmed Sameh (Moha)</p>
+            <p class="eng-role">Civil Engineer | Technical Office & Shop Drawing</p>
+            <p class="eng-mail">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <span>ahmedhendawe66@gmail.com</span>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ==================== عارض الأقسام الثلاثة ==================== -->
+    <div id="tool-viewer">
+        <div class="viewer-topbar">
+            <button class="back-home-btn" onclick="goHome()">
+                <span>🏠 العودة للرئيسية</span>
+            </button>
+            <h2 class="viewer-title" id="active-tool-title">حقيبة المهندس الذكية</h2>
+        </div>
+
+        <iframe id="frame-replace" class="tool-iframe"></iframe>
+        <iframe id="frame-concrete" class="tool-iframe"></iframe>
+        <iframe id="frame-weights" class="tool-iframe"></iframe>
+    </div>
+
+    <!-- ==================== الأكواد الثلاثة الأصلية محفوظة بالكامل داخل Textareas معزولة ==================== -->
+    
+    <!-- الكود الأول: قسم الخرسانة ومكوناتها وتقطيع الحديد -->
+    <textarea id="raw-code-concrete" style="display:none;"><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حقيبة المهندس الذكية - الإصدار المعتمد</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        /* التبويبات */
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 14px;
+            color: #6c757d;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab.active {
+            background: #1a73e8;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* حقول الإدخال */
+        .input-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #444;
+            font-size: 14px;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        /* خيارات علامة الصح */
+        .checkbox-wrapper {
+            background: #eef4ff;
+            border: 1px solid #b6d4fe;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .checkbox-wrapper.steel-check {
+            background: #fdf3f4;
+            border-color: #f5c2c7;
+        }
+        .checkbox-wrapper.dim-check {
+            background: #e8f5e9;
+            border-color: #a5d6a7;
+        }
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #1a73e8;
+        }
+        .checkbox-wrapper.steel-check input[type="checkbox"] {
+            accent-color: #dc3545;
+        }
+        .checkbox-wrapper.dim-check input[type="checkbox"] {
+            accent-color: #2e7d32;
+        }
+        .checkbox-wrapper label {
+            margin: 0;
+            cursor: pointer;
+            color: #084298;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .checkbox-wrapper.steel-check label { color: #842029; }
+        .checkbox-wrapper.dim-check label { color: #1b5e20; }
+
+        /* لوحات الإدخال الفرعية المخفية */
+        .hidden-panel {
+            display: none;
+            background: #f8fafc;
+            border: 1px dashed #90a4ae;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .inputs-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .field-box label {
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #37474f;
+        }
+        .field-box input {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        button.calc-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 5px;
+        }
+        button.calc-btn:hover {
+            background-color: #1557b0;
+        }
+
+        /* نتائج الحصر */
+        .result-section { margin-top: 25px; display: none; }
+        .card { padding: 15px 20px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e0e0e0; }
+        .net-qty { background-color: #f8f9fa; border-right: 5px solid #6c757d; }
+        .total-qty { background-color: #e6f4ea; border-right: 5px solid #34a853; }
+        .truck-card-box { background-color: #fff8e1; border-right: 5px solid #ffa000; }
+        .cost-card { background-color: #fff; border-right: 5px solid #1a73e8; display: none; }
+        
+        h3 { margin-top: 0; font-size: 16px; color: #222; margin-bottom: 12px; }
+        
+        .grid-results { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .result-item { background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #eee; text-align: center; }
+        .result-item span.label { display: block; color: #666; font-size: 13px; margin-bottom: 4px; }
+        .result-item span.val { font-weight: bold; color: #1a73e8; font-size: 15px; }
+
+        /* جدول الأسعار */
+        .price-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        .price-table th, .price-table td { border: 1px solid #dee2e6; padding: 10px; text-align: center; }
+        .price-table th { background-color: #1a73e8; color: #fff; }
+        .price-table tr:nth-child(even) { background-color: #f8f9fa; }
+        .price-table tfoot td { background-color: #e8f0fe; font-weight: bold; font-size: 16px; color: #0d47a1; }
+
+        .steel-row { display: none; }
+
+        /* نتائج تقطيع الحديد */
+        .cutting-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-top: 15px; }
+        .cut-card { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 8px; padding: 10px; text-align: center; }
+        .cut-card span { font-size: 12px; color: #666; display: block; margin-bottom: 4px; }
+        .cut-card strong { font-size: 16px; color: #1a73e8; }
+        
+        .bar-visual { display: flex; width: 100%; height: 35px; background: #e9ecef; border-radius: 6px; overflow: hidden; margin-top: 15px; border: 1px solid #ccc; }
+        .cut-piece { background: #28a745; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; border-left: 1px solid #fff; font-weight: bold;}
+        .waste-piece { background: #dc3545; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;}
+
+        .sugg-box { margin-top: 12px; padding: 12px; border-radius: 8px; font-size: 13px; line-height: 1.5; }
+        .sugg-inc { background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; }
+        .sugg-dec { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; }
+        
+        .note { font-size: 12px; color: #856404; background: #fff3cd; padding: 12px; border-radius: 6px; border-right: 5px solid #ffc107; line-height: 1.6; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="tabs">
+            <div class="tab" onclick="switchTab('cuttingTab', this)">تقطيع وهالك الحديد</div>
+            <div class="tab active" onclick="switchTab('concreteTab', this)">حصر الخرسانة ومكوناتها</div>
+        </div>
+        
+        <!-- ================= التبويب الأول: تقطيع الحديد ================= -->
+        <div id="cuttingTab" class="tab-content">
+            <div class="input-group">
+                <label>أدخل طول القطعية المطلوبة بالمتر (مثلاً 1.71 أو 2.5):</label>
+                <input type="number" id="cutLength" step="0.01" placeholder="مثال: 2.4">
+            </div>
+            <button class="calc-btn" onclick="analyzeCutting()">تحليل وتقييم الهالك</button>
+
+            <div id="cuttingResults" style="display: none;">
+                <div class="cutting-grid">
+                    <div class="cut-card"><span>عدد القطع من السيخ</span><strong id="piecesCount">0</strong></div>
+                    <div class="cut-card"><span>طول الفضلة (الهالك)</span><strong id="wasteLen" style="color: #dc3545;">0 م</strong></div>
+                    <div class="cut-card"><span>نسبة الهالك</span><strong id="wastePercent">0%</strong></div>
+                </div>
+                <div class="bar-visual" id="visualBar"></div>
+                <div id="suggContainer" style="display: none;">
+                    <div class="sugg-box sugg-inc" id="incDetails"></div>
+                    <div class="sugg-box sugg-dec" id="decDetails"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= التبويب الثاني: حصر الخرسانة ================= -->
+        <div id="concreteTab" class="tab-content active">
+            
+            <!-- خيار إدخال الحجم بالأبعاد -->
+            <div class="checkbox-wrapper dim-check" onclick="toggleCheckboxEvent(event, 'calcByDims')">
+                <input type="checkbox" id="calcByDims" onchange="toggleDimsPanel()">
+                <label for="calcByDims">📐 إدخال الحجم بالأبعاد (الطول × العرض × السمك)</label>
+            </div>
+
+            <!-- لوحة الأبعاد (تظهر عند التفعيل) -->
+            <div id="dimsPanel" class="hidden-panel">
+                <div class="inputs-grid-3">
+                    <div class="field-box">
+                        <label>الطول (متر):</label>
+                        <input type="number" id="dim_l" value="4" step="any">
+                    </div>
+                    <div class="field-box">
+                        <label>العرض (متر):</label>
+                        <input type="number" id="dim_w" value="5" step="any">
+                    </div>
+                    <div class="field-box">
+                        <label>السمك (متر أو سم):</label>
+                        <input type="number" id="dim_t" value="0.2" step="any" placeholder="مثال: 0.2 أو 20">
+                    </div>
+                </div>
+                <div style="font-size: 11px; color: #666; margin-top: 8px;">* ملاحظة: يمكنك إدخال السمك بالسنتيمتر (مثلاً 20) وسيقوم البرنامج بتحويله تلقائياً.</div>
+            </div>
+
+            <!-- لوحة الحجم الكلي المباشر -->
+            <div class="input-group" id="volInputGroup">
+                <label for="volume">حجم الخرسانة الكلي المطلوبة (متر مكعب m³):</label>
+                <input type="number" id="volume" placeholder="مثال: 10" step="any" min="0.1" value="10">
+            </div>
+
+            <div class="input-group">
+                <label for="elementType">نوع العنصر الإنشائي (لتقدير الحديد الاسترشادي):</label>
+                <select id="elementType" onchange="toggleConcreteType()">
+                    <option value="pc_0">خرسانة عادية (فرشات/لبشة) - بدون حديد</option>
+                    <option value="rc_80">قواعد مسلحة (متوسط 80 كجم حديد / م³)</option>
+                    <option value="rc_100">سقف كمراتي Solid Slab (متوسط 100 كجم حديد / م³)</option>
+                    <option value="rc_130">سقف فلات سلاب Flat Slab (متوسط 130 كجم حديد / م³)</option>
+                    <option value="rc_160" selected>أعمدة وحوائط قص (متوسط 160 كجم حديد / م³)</option>
+                </select>
+            </div>
+
+            <!-- خانة محتوى الأسمنت وظروف التعرض (كود مصري) -->
+            <div class="input-group">
+                <label for="cementContent">محتوى الأسمنت وظروف التعرض (كود مصري 2025):</label>
+                <select id="cementContent">
+                    <option value="250" id="opt_pc" style="display:none;">خرسانة عادية (5 شكاير / 250 كجم)</option>
+                    <option value="350" id="opt_rc_1" selected>ظروف عادية / رطوبة معتدلة (7 شكاير / 350 كجم)</option>
+                    <option value="375" id="opt_rc_2">ظروف قاسية / أملاح وكلوريدات (7.5 شكارة / 375 كجم)</option>
+                    <option value="400" id="opt_rc_3">ظروف شديدة القسوة / ماء بحر (8 شكاير / 400 كجم)</option>
+                </select>
+            </div>
+
+            <!-- خانة حمولة العربية -->
+            <div class="input-group">
+                <label for="truckVolume">حجم صندوق العربية الواحدة (بالمتر المكعب m³):</label>
+                <input type="number" id="truckVolume" placeholder="اكتب حجم العربية.. مثلاً: 6 أو 10 أو 15" step="any" min="1" value="10">
+            </div>
+
+            <!-- خيار حديد التسليح الاسترشادي -->
+            <div class="checkbox-wrapper steel-check" id="steelCheckWrapper" onclick="toggleCheckboxEvent(event, 'enableSteel')">
+                <input type="checkbox" id="enableSteel">
+                <label for="enableSteel">➕ إضافة تقدير استرشادي لوزن الحديد (متوسط السوق)</label>
+            </div>
+
+            <!-- خيار الأسعار -->
+            <div class="checkbox-wrapper" onclick="toggleCheckboxEvent(event, 'enablePrices')">
+                <input type="checkbox" id="enablePrices" onchange="togglePricePanel()">
+                <label for="enablePrices">💵 معرفة وحساب أسعار المواد (رمل، سن، مياه، أسمنت، حديد)</label>
+            </div>
+
+            <!-- لوحة إدخال الأسعار -->
+            <div id="pricePanel" class="hidden-panel">
+                <div class="inputs-grid">
+                    <div class="field-box"><label>سعر طن الأسمنت (ج.م):</label><input type="number" id="price_cement" value="3850"></div>
+                    <div class="field-box"><label>سعر 1 م³ رمل (ج.م):</label><input type="number" id="price_sand" value="350"></div>
+                    <div class="field-box"><label>سعر 1 م³ سن (ج.م):</label><input type="number" id="price_gravel" value="550"></div>
+                    <div class="field-box"><label>سعر 1 م³ مياه (ج.م):</label><input type="number" id="price_water" value="45"></div>
+                    <div class="field-box" id="price_steel_box"><label>سعر طن الحديد (ج.م):</label><input type="number" id="price_steel" value="38000"></div>
+                </div>
+            </div>
+            
+            <button class="calc-btn" onclick="calculateMaterials()">احسب الكميات</button>
+
+            <div id="results" class="result-section">
+                <!-- كارت حجم الخرسانة المعتمد لو تم استخدام الأبعاد -->
+                <div class="card" id="calculatedVolCard" style="display:none; background:#e3f2fd; border-color:#90caf9;">
+                    <h3 style="color:#1565c0; margin-bottom:0;">📐 الحجم الهندسي المحسوب: <span id="lbl_calculated_vol">0</span> م³</h3>
+                </div>
+
+                <!-- كارت عدد العربيات -->
+                <div class="card truck-card-box">
+                    <h3>🚛 تقدير عدد العربيات المطلوبة (حسب سعة <span id="truck-cap-lbl"></span> م³)</h3>
+                    <div class="grid-results">
+                        <div class="result-item"><span class="label">عربيات الرمل</span><span class="val" id="sand-trucks" style="color: #d84315;"></span></div>
+                        <div class="result-item"><span class="label">عربيات السن / الزلط</span><span class="val" id="gravel-trucks" style="color: #d84315;"></span></div>
+                    </div>
+                </div>
+
+                <!-- جدول الأسعار -->
+                <div id="costCard" class="card cost-card">
+                    <h3>💰 جدول تكلفة وأسعار المواد (شامل الهالك)</h3>
+                    <table class="price-table">
+                        <thead><tr><th>المادة</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي (ج.م)</th></tr></thead>
+                        <tbody>
+                            <tr id="tbl-row-steel" class="steel-row"><td><b>الحديد</b></td><td id="tbl-qty-steel"></td><td id="tbl-unit-steel"></td><td id="tbl-cost-steel"></td></tr>
+                            <tr><td><b>الأسمنت</b></td><td id="tbl-qty-cement"></td><td id="tbl-unit-cement"></td><td id="tbl-cost-cement"></td></tr>
+                            <tr><td><b>الرمل</b></td><td id="tbl-qty-sand"></td><td id="tbl-unit-sand"></td><td id="tbl-cost-sand"></td></tr>
+                            <tr><td><b>السن</b></td><td id="tbl-qty-gravel"></td><td id="tbl-unit-gravel"></td><td id="tbl-cost-gravel"></td></tr>
+                            <tr><td><b>المياه</b></td><td id="tbl-qty-water"></td><td id="tbl-unit-water"></td><td id="tbl-cost-water"></td></tr>
+                        </tbody>
+                        <tfoot><tr><td colspan="3">السعر الكلي للمواد</td><td id="tbl-total-cost">0 ج.م</td></tr></tfoot>
+                    </table>
+                </div>
+
+                <!-- الكميات الإجمالية للطلب -->
+                <div class="card total-qty">
+                    <h3>🛒 إجمالي خامات الطلب (شاملة 5% هالك)</h3>
+                    <div class="grid-results">
+                        <div class="result-item steel-row"><span class="label">الحديد المشتري</span><span class="val" id="total-steel"></span></div>
+                        <div class="result-item"><span class="label">الأسمنت المشتري</span><span class="val" id="total-cement"></span></div>
+                        <div class="result-item"><span class="label">السن / الزلط</span><span class="val" id="total-gravel"></span></div>
+                        <div class="result-item"><span class="label">الرمل المشتري</span><span class="val" id="total-sand"></span></div>
+                    </div>
+                </div>
+
+                <!-- الكميات الصافية -->
+                <div class="card net-qty">
+                    <h3>📌 الكميات الصافية (بدون هالك)</h3>
+                    <div class="grid-results">
+                        <div class="result-item steel-row"><span class="label">الحديد الصافي</span><span class="val" id="net-steel"></span></div>
+                        <div class="result-item"><span class="label">الأسمنت الصافي</span><span class="val" id="net-cement"></span></div>
+                        <div class="result-item"><span class="label">السن الصافي</span><span class="val" id="net-gravel"></span></div>
+                        <div class="result-item"><span class="label">الرمل الصافي</span><span class="val" id="net-sand"></span></div>
+                        <div class="result-item" style="grid-column: span 2;"><span class="label">المياه المطلوبة للخلط</span><span class="val" id="net-water"></span></div>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <b>💡 ملحوظات الكود المصري:</b><br>
+                    - كمية مياه الخلط تُحسب بنسبة $w/c$ تتراوح بين 0.40 للظروف الشديدة إلى 0.50 للظروف المعتدلة.<br>
+                    - أوزان الحديد المذكورة هي <b>قيم استرشادية لمتوسط السوق</b> ولا تغني عن حصر اللوحات الفعلي.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function toggleDimsPanel() {
+            const isChecked = document.getElementById('calcByDims').checked;
+            document.getElementById('dimsPanel').style.display = isChecked ? 'block' : 'none';
+            document.getElementById('volInputGroup').style.display = isChecked ? 'none' : 'block';
+        }
+
+        function toggleConcreteType() {
+            const val = document.getElementById('elementType').value;
+            const isPlain = val.startsWith('pc');
+            
+            const steelWrapper = document.getElementById('steelCheckWrapper');
+            const priceSteelBox = document.getElementById('price_steel_box');
+            const cementDropdown = document.getElementById('cementContent');
+            
+            const opt_pc = document.getElementById('opt_pc');
+            const opt_rc_1 = document.getElementById('opt_rc_1');
+            const opt_rc_2 = document.getElementById('opt_rc_2');
+            const opt_rc_3 = document.getElementById('opt_rc_3');
+            
+            if (isPlain) {
+                steelWrapper.style.display = 'none';
+                document.getElementById('enableSteel').checked = false;
+                priceSteelBox.style.display = 'none';
+                opt_pc.style.display = 'block';
+                opt_rc_1.style.display = 'none'; opt_rc_2.style.display = 'none'; opt_rc_3.style.display = 'none';
+                cementDropdown.value = "250";
+            } else {
+                steelWrapper.style.display = 'flex';
+                priceSteelBox.style.display = 'block';
+                opt_pc.style.display = 'none';
+                opt_rc_1.style.display = 'block'; opt_rc_2.style.display = 'block'; opt_rc_3.style.display = 'block';
+                if(cementDropdown.value === "250") cementDropdown.value = "350";
+            }
+        }
+
+        function toggleCheckboxEvent(e, cbId) {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+                const cb = document.getElementById(cbId);
+                cb.checked = !cb.checked;
+                if(cbId === 'enablePrices') togglePricePanel();
+                if(cbId === 'calcByDims') toggleDimsPanel();
+            }
+        }
+
+        function togglePricePanel() {
+            const isChecked = document.getElementById('enablePrices').checked;
+            document.getElementById('pricePanel').style.display = isChecked ? 'block' : 'none';
+            if (!isChecked) document.getElementById('costCard').style.display = 'none';
+        }
+
+        function analyzeCutting() {
+            const L = parseFloat(document.getElementById('cutLength').value);
+            if (!L || L <= 0 || L > 12) { alert("برجاء إدخال طول صحيح بين 0.1 و 12 متر"); return; }
+            const barTotal = 12.0;
+            const count = Math.floor(barTotal / L);
+            const used = count * L;
+            const waste = +(barTotal - used).toFixed(2);
+            const wastePct = +((waste / barTotal) * 100).toFixed(1);
+
+            document.getElementById('piecesCount').innerText = `${count} قطع`;
+            document.getElementById('wasteLen').innerText = `${waste} م`;
+            document.getElementById('wastePercent').innerText = `${wastePct}%`;
+            document.getElementById('cuttingResults').style.display = 'block';
+
+            const visual = document.getElementById('visualBar');
+            visual.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'cut-piece';
+                p.style.width = `${(L / barTotal) * 100}%`;
+                p.innerText = `${L}م`;
+                visual.appendChild(p);
+            }
+            if (waste > 0.01) {
+                const w = document.createElement('div');
+                w.className = 'waste-piece';
+                w.style.width = `${(waste / barTotal) * 100}%`;
+                w.innerText = `${waste}م`;
+                visual.appendChild(w);
+            }
+
+            const optNextCount = +(12.0 / (count + 1)).toFixed(2);
+            const diffDecCm = Math.round((L - optNextCount) * 100);
+            const exactDivisors = [12, 6, 4, 3, 2.4, 2, 1.5, 1.2, 1, 0.8, 0.75, 0.6, 0.5];
+            const nextIdeal = exactDivisors.reverse().find(d => d >= L) || 12;
+            const diffIncCm = Math.round((nextIdeal - L) * 100);
+
+            document.getElementById('incDetails').innerHTML = `لو زودت الطول <strong>+${diffIncCm} سم</strong> ليصبح <strong>${nextIdeal} م</strong>، هتطلع <strong>${12 / nextIdeal} قطع</strong> بدون هالك نهائياً (0 م).`;
+            document.getElementById('decDetails').innerHTML = `لو قللت الطول <strong>-${diffDecCm} سم</strong> ليصبح <strong>${optNextCount} م</strong>، هتطلع <strong>${count + 1} قطع</strong> بهالك 0 م.`;
+            document.getElementById('suggContainer').style.display = 'block';
+        }
+
+        function calculateMaterials() {
+            let vol = 0;
+            const isCalcByDims = document.getElementById('calcByDims').checked;
+            
+            if (isCalcByDims) {
+                let l = parseFloat(document.getElementById('dim_l').value) || 0;
+                let w = parseFloat(document.getElementById('dim_w').value) || 0;
+                let t = parseFloat(document.getElementById('dim_t').value) || 0;
+                
+                if (t >= 10) { t = t / 100; }
+                
+                vol = l * w * t;
+                document.getElementById('lbl_calculated_vol').innerText = vol.toFixed(3);
+                document.getElementById('calculatedVolCard').style.display = 'block';
+            } else {
+                vol = parseFloat(document.getElementById('volume').value) || 0;
+                document.getElementById('calculatedVolCard').style.display = 'none';
+            }
+
+            let truckVol = parseFloat(document.getElementById('truckVolume').value);
+            
+            if (vol <= 0 || isNaN(truckVol) || truckVol <= 0) {
+                alert('برجاء التأكد من إدخال الأبعاد أو الحجم بشكل صحيح.');
+                return;
+            }
+
+            let elemTypeArr = document.getElementById('elementType').value.split('_');
+            let isPlain = elemTypeArr[0] === 'pc';
+            let steelRatio = parseFloat(elemTypeArr[1]);
+            let cement_kg_per_m3 = parseFloat(document.getElementById('cementContent').value); 
+            
+            let isSteelEnabled = document.getElementById('enableSteel').checked && !isPlain;
+            let wc_ratio = 0.50; 
+            if (cement_kg_per_m3 == 375) wc_ratio = 0.45;
+            if (cement_kg_per_m3 >= 400) wc_ratio = 0.40;
+
+            document.querySelectorAll('.steel-row').forEach(el => {
+                el.style.display = isSteelEnabled ? (el.tagName === 'TR' ? 'table-row' : 'block') : 'none';
+            });
+
+            const sand_ratio = 0.4;
+            const gravel_ratio = 0.8;
+            const water_liters_per_m3 = cement_kg_per_m3 * wc_ratio;
+            const waste_factor = 1.05; 
+
+            let net_sand = vol * sand_ratio;
+            let net_gravel = vol * gravel_ratio;
+            let net_cement_kg = vol * cement_kg_per_m3;
+            let net_cement_bags = net_cement_kg / 50;
+            let net_water_liters = vol * water_liters_per_m3;
+            let net_water_m3 = net_water_liters / 1000;
+            let net_steel_kg = isSteelEnabled ? vol * steelRatio : 0;
+
+            let total_sand = net_sand * waste_factor;
+            let total_gravel = net_gravel * waste_factor;
+            let total_steel_kg = isSteelEnabled ? net_steel_kg * waste_factor : 0;
+            
+            let total_cement_kg_exact = net_cement_kg * waste_factor;
+            let total_cement_bags_rounded = Math.ceil(total_cement_kg_exact / 50);
+            let final_total_cement_kg = total_cement_bags_rounded * 50; 
+            let final_total_cement_ton = final_total_cement_kg / 1000;
+
+            let sand_trucks_count = Math.ceil(total_sand / truckVol);
+            let gravel_trucks_count = Math.ceil(total_gravel / truckVol);
+
+            document.getElementById('truck-cap-lbl').innerText = truckVol;
+            document.getElementById('sand-trucks').innerText = `${sand_trucks_count} عربية (${total_sand.toFixed(2)} م³)`;
+            document.getElementById('gravel-trucks').innerText = `${gravel_trucks_count} عربية (${total_gravel.toFixed(2)} م³)`;
+
+            const isPricesEnabled = document.getElementById('enablePrices').checked;
+            if (isPricesEnabled) {
+                let p_cement = parseFloat(document.getElementById('price_cement').value) || 0;
+                let p_sand = parseFloat(document.getElementById('price_sand').value) || 0;
+                let p_gravel = parseFloat(document.getElementById('price_gravel').value) || 0;
+                let p_water = parseFloat(document.getElementById('price_water').value) || 0;
+                let p_steel = parseFloat(document.getElementById('price_steel').value) || 0;
+
+                let cost_cement = final_total_cement_ton * p_cement;
+                let cost_sand = total_sand * p_sand;
+                let cost_gravel = total_gravel * p_gravel;
+                let cost_water = net_water_m3 * p_water;
+                let cost_steel = isSteelEnabled ? (total_steel_kg / 1000) * p_steel : 0;
+
+                let total_cost = cost_cement + cost_sand + cost_gravel + cost_water + cost_steel;
+
+                if(isSteelEnabled) {
+                    document.getElementById('tbl-qty-steel').innerText = `${(total_steel_kg/1000).toFixed(2)} طن`;
+                    document.getElementById('tbl-unit-steel').innerText = `${p_steel.toLocaleString()} ج / طن`;
+                    document.getElementById('tbl-cost-steel').innerText = `${Math.round(cost_steel).toLocaleString()} ج.م`;
+                }
+
+                document.getElementById('tbl-qty-cement').innerText = `${final_total_cement_ton.toFixed(2)} طن (${total_cement_bags_rounded} شكارة)`;
+                document.getElementById('tbl-unit-cement').innerText = `${p_cement.toLocaleString()} ج / طن`;
+                document.getElementById('tbl-cost-cement').innerText = `${Math.round(cost_cement).toLocaleString()} ج.م`;
+
+                document.getElementById('tbl-qty-sand').innerText = `${total_sand.toFixed(2)} م³`;
+                document.getElementById('tbl-unit-sand').innerText = `${p_sand.toLocaleString()} ج / م³`;
+                document.getElementById('tbl-cost-sand').innerText = `${Math.round(cost_sand).toLocaleString()} ج.م`;
+
+                document.getElementById('tbl-qty-gravel').innerText = `${total_gravel.toFixed(2)} م³`;
+                document.getElementById('tbl-unit-gravel').innerText = `${p_gravel.toLocaleString()} ج / م³`;
+                document.getElementById('tbl-cost-gravel').innerText = `${Math.round(cost_gravel).toLocaleString()} ج.م`;
+
+                document.getElementById('tbl-qty-water').innerText = `${net_water_m3.toFixed(2)} م³`;
+                document.getElementById('tbl-unit-water').innerText = `${p_water.toLocaleString()} ج / م³`;
+                document.getElementById('tbl-cost-water').innerText = `${Math.round(cost_water).toLocaleString()} ج.م`;
+
+                document.getElementById('tbl-total-cost').innerText = `${Math.round(total_cost).toLocaleString()} ج.م`;
+                document.getElementById('costCard').style.display = 'block';
+            } else {
+                document.getElementById('costCard').style.display = 'none';
+            }
+
+            function formatWeight(kg) {
+                if (kg >= 1000) return (kg / 1000).toFixed(2) + " طن";
+                return Math.round(kg) + " كجم";
+            }
+
+            if(isSteelEnabled) {
+                document.getElementById('total-steel').innerText = formatWeight(total_steel_kg);
+                document.getElementById('net-steel').innerText = formatWeight(net_steel_kg);
+            }
+
+            document.getElementById('total-cement').innerText = `${final_total_cement_kg} كجم (${total_cement_bags_rounded} شكارة)`;
+            document.getElementById('total-gravel').innerText = `${total_gravel.toFixed(2)} م³`;
+            document.getElementById('total-sand').innerText = `${total_sand.toFixed(2)} م³`;
+
+            document.getElementById('net-cement').innerText = `${Math.round(net_cement_kg)} كجم (${net_cement_bags.toFixed(1)} شكارة)`;
+            document.getElementById('net-gravel').innerText = `${net_gravel.toFixed(2)} م³`;
+            document.getElementById('net-sand').innerText = `${net_sand.toFixed(2)} م³`;
+            document.getElementById('net-water').innerText = `${Math.round(net_water_liters)} لتر (${net_water_m3.toFixed(2)} م³ نسبة $w/c$ ${wc_ratio})`;
+
+            document.getElementById('results').style.display = 'block';
+        }
+        
+        window.onload = toggleConcreteType;
+    </script>
+</body>
+</html></textarea>
+
+    <!-- الكود الثاني: أدوات الشوب دروينج وحاسبة أوزان الحديد -->
+    <textarea id="raw-code-weights" style="display:none;"><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أدوات الشوب دروينج وحاسبة أوزان الحديد</title>
+    
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Cairo for Arabic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .shop-card {
+            max-width: 720px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .shop-title {
+            text-align: center;
+            color: #1a73e8;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 12px;
+        }
+        .tabs-bar {
+            display: flex;
+            margin-bottom: 25px;
+            background: #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .tab-btn {
+            flex: 1;
+            text-align: center;
+            padding: 13px 10px;
+            color: #555;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.25s;
+            user-select: none;
+        }
+        .tab-btn.active {
+            background: #1a73e8;
+            color: #fff;
+        }
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        .field-group {
+            margin-bottom: 18px;
+        }
+        .field-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #444;
+            font-size: 14px;
+        }
+        .field-input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+        .field-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+        }
+        .badi-box {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 13px 15px;
+            border-radius: 6px;
+            border: 1px solid #e1e4e8;
+            margin-bottom: 18px;
+            cursor: pointer;
+        }
+        .badi-box input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-left: 10px;
+            cursor: pointer;
+            accent-color: #1a73e8;
+        }
+        .badi-box span {
+            color: #1a73e8;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .primary-calc-btn {
+            width: 100%;
+            padding: 13px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+        .primary-calc-btn:hover {
+            background-color: #1557b0;
+        }
+        .blue-result-box {
+            margin-top: 20px;
+            background: #e8f0fe;
+            border: 1px solid #aecbfa;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .blue-result-title {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .blue-result-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a73e8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 10v12M20 10v12M12 2v20M8 6h8M8 14h8M8 18h8M8 10h8"/>
+                </svg>
+                <h1 class="text-xl sm:text-2xl font-bold tracking-tight">بوابة الشوب دروينج وحاسبة حديد التسليح</h1>
+            </div>
+            <div class="hidden sm:block text-sm text-slate-400 font-semibold">
+                أداة المكتب الفني - الهندسة المدنية
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 w-full">
+
+        <div class="shop-card">
+            <h2 class="shop-title">أدوات الشوب دروينج السريعة 📐</h2>
+            
+            <div class="tabs-bar">
+                <div class="tab-btn active" onclick="openShopTab('distTab', this)">توزيع الأسياخ</div>
+                <div class="tab-btn" onclick="openShopTab('lapTab', this)">طول الوصلة</div>
+                <div class="tab-btn" onclick="openShopTab('weightTab', this)">أوزان الحديد</div>
+            </div>
+
+            <!-- التبويب 1: توزيع الأسياخ -->
+            <div id="distTab" class="tab-pane active">
+                <div class="field-group">
+                    <label class="field-label">طول التوزيع / مسافة الرص (بالمتر):</label>
+                    <input type="number" id="distLength" class="field-input" value="6.7" step="0.01" placeholder="مثال: 6.7">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">المسافة بين الأسياخ - Spacing (بالمم):</label>
+                    <input type="number" id="distSpacing" class="field-input" value="100" step="1" placeholder="مثال: 100">
+                </div>
+                
+                <label class="badi-box">
+                    <input type="checkbox" id="addBadi" onchange="calcDistribution()">
+                    <span>إضافة سيخ بادي (+1) للعناصر المستقلة</span>
+                </label>
+
+                <button class="primary-calc-btn" onclick="calcDistribution()">احسب العدد</button>
+
+                <div class="blue-result-box" id="distResultBox">
+                    <div class="blue-result-title">إجمالي عدد الأسياخ المطلوب:</div>
+                    <div class="blue-result-value" id="distResult">67 سيخ</div>
+                </div>
+            </div>
+
+            <!-- التبويب 2: طول الوصلة -->
+            <div id="lapTab" class="tab-pane">
+                <div class="field-group">
+                    <label class="field-label">قطر السيخ المستخدم (مم):</label>
+                    <select id="lapDia" class="field-input" onchange="calcLap()">
+                        <option value="8">8 مم</option>
+                        <option value="10">10 مم</option>
+                        <option value="12">12 مم</option>
+                        <option value="16" selected>16 مم</option>
+                        <option value="18">18 مم</option>
+                        <option value="20">20 مم</option>
+                        <option value="22">22 مم</option>
+                        <option value="25">25 مم</option>
+                        <option value="32">32 مم</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">معامل الوصلة / التماسك (حسب الكود):</label>
+                    <select id="lapFactor" class="field-input" onchange="calcLap()">
+                        <option value="40">40 الفاي (40Φ - الضغط)</option>
+                        <option value="45">45 الفاي (45Φ)</option>
+                        <option value="50">50 الفاي (50Φ)</option>
+                        <option value="55">55 الفاي (55Φ)</option>
+                        <option value="60" selected>60 الفاي (60Φ - الشد)</option>
+                        <option value="65">65 الفاي (65Φ)</option>
+                    </select>
+                </div>
+
+                <button class="primary-calc-btn" onclick="calcLap()">احسب طول الوصلة</button>
+
+                <div class="blue-result-box" id="lapResultBox">
+                    <div class="blue-result-title">طول الوصلة أو التماسك المطلوب:</div>
+                    <div class="blue-result-value" id="lapResult">0.96 متر (96 سم)</div>
+                </div>
+            </div>
+
+            <!-- التبويب 3: أوزان الحديد -->
+            <div id="weightTab" class="tab-pane">
+                
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 mb-2">
+                    <div class="flex items-center gap-2 mb-4 pb-3 border-b border-slate-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                        <h3 class="text-base font-bold text-slate-800">حاسبة كميات الحديد المخصصة</h3>
+                    </div>
+
+                    <div id="error-box" class="hidden mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm font-semibold flex items-center gap-2">
+                        <span>يرجى إدخال قيم صحيحة لجميع الحقول!</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="calc-count" class="block text-sm font-bold text-slate-700 mb-2">عدد الأسياخ</label>
+                            <input type="number" id="calc-count" min="1" step="1" value="5" placeholder="مثال: 5" 
+                                class="w-full bg-white border border-slate-300 text-slate-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                        </div>
+                        
+                        <div>
+                            <label for="calc-length" class="block text-sm font-bold text-slate-700 mb-2">طول السيخ (بالمتر)</label>
+                            <input type="number" id="calc-length" min="0.1" step="0.1" value="6" placeholder="مثال: 6" 
+                                class="w-full bg-white border border-slate-300 text-slate-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                        </div>
+
+                        <div>
+                            <label for="calc-diameter" class="block text-sm font-bold text-slate-700 mb-2">قطر السيخ (بالملم)</label>
+                            <select id="calc-diameter" 
+                                class="w-full bg-white border border-slate-300 text-slate-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                                <option value="8">8 مم (2.5 لينيه)</option>
+                                <option value="10">10 مم (3 لينيه)</option>
+                                <option value="12">12 مم (4 لينيه)</option>
+                                <option value="16">16 مم (5 لينيه)</option>
+                                <option value="18" selected>18 مم (6 لينيه)</option>
+                                <option value="22">22 مم (7 لينيه)</option>
+                                <option value="25">25 مم (8 لينيه)</option>
+                                <option value="32">32 مم (10 لينيه)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <button onclick="calculateWeight()" class="primary-calc-btn">
+                            احسب الوزن الكلي
+                        </button>
+                    </div>
+
+                    <div id="result-area" class="mt-6 p-5 bg-slate-900 rounded-xl shadow-inner">
+                        <h4 class="text-slate-400 text-xs font-bold mb-3 uppercase tracking-wider">النتائج النهائية</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                                <div class="text-slate-400 text-xs mb-1">الوزن الكلي بالكيلوجرام</div>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="res-kg" class="text-2xl md:text-3xl font-black text-white">0</span>
+                                    <span class="text-blue-400 font-bold text-sm">كجم</span>
+                                </div>
+                            </div>
+                            <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                                <div class="text-slate-400 text-xs mb-1">الوزن الكلي بالطن</div>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="res-ton" class="text-2xl md:text-3xl font-black text-white">0</span>
+                                    <span class="text-blue-400 font-bold text-sm">طن</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-slate-400 text-xs bg-slate-800/50 p-2.5 rounded border border-slate-700">
+                            <span class="font-semibold text-slate-300">تفاصيل الحسبة: </span>
+                            <span id="res-details" dir="ltr" class="inline-block ml-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="px-6 py-5 border-b border-slate-200 bg-slate-50 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                <h2 class="text-lg font-bold text-slate-800">الجدول القياسي لأوزان وأعداد أسياخ الحديد (طول 12م)</h2>
+            </div>
+            
+            <div class="table-container overflow-x-auto w-full">
+                <table class="w-full text-right text-sm whitespace-nowrap">
+                    <thead class="bg-slate-100 text-slate-600 font-semibold border-b border-slate-200">
+                        <tr>
+                            <th scope="col" class="px-6 py-4">القطر (مم)</th>
+                            <th scope="col" class="px-6 py-4">وزن المتر الطولي (كجم/م)</th>
+                            <th scope="col" class="px-6 py-4">وزن السيخ (12 متر) (كجم)</th>
+                            <th scope="col" class="px-6 py-4 text-blue-700 bg-blue-50/50">عدد الأسياخ في 1 طن</th>
+                            <th scope="col" class="px-6 py-4 text-blue-700 bg-blue-50/50">عدد الأسياخ في 2 طن</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rebar-table-body" class="divide-y divide-slate-100">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 text-center text-sm text-slate-500 font-semibold">
+            تم التطوير لتسهيل أعمال المكتب الفني والشوب دروينج. المعادلة المستخدمة: (القطر² / 162) = وزن المتر الطولي.
+        </div>
+    </footer>
+
+    <script>
+        function openShopTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        function calcDistribution() {
+            let lengthM = parseFloat(document.getElementById('distLength').value);
+            let spacingMm = parseFloat(document.getElementById('distSpacing').value);
+            let addBadi = document.getElementById('addBadi').checked;
+
+            if (isNaN(lengthM) || isNaN(spacingMm) || lengthM <= 0 || spacingMm <= 0) {
+                document.getElementById('distResult').innerText = "أدخل قيم صحيحة";
+                return;
+            }
+
+            let spacingM = spacingMm / 1000;
+            let exactDivision = Math.round((lengthM / spacingM) * 1e6) / 1e6;
+            let count = Math.ceil(exactDivision);
+            
+            if (addBadi) {
+                count += 1;
+            }
+
+            document.getElementById('distResult').innerText = count + " سيخ";
+        }
+
+        function calcLap() {
+            let diaMm = parseFloat(document.getElementById('lapDia').value);
+            let factor = parseFloat(document.getElementById('lapFactor').value);
+
+            let lapMm = diaMm * factor;
+            let lapCm = lapMm / 10;
+            let lapM = lapMm / 1000;
+
+            document.getElementById('lapResult').innerText = lapM.toFixed(2) + " متر (" + lapCm.toFixed(0) + " سم)";
+        }
+
+        function generateTable() {
+            const diameters = [8, 10, 12, 16, 18, 22, 25, 32];
+            const tbody = document.getElementById('rebar-table-body');
+            tbody.innerHTML = '';
+            
+            diameters.forEach(d => {
+                const wpm = (Math.pow(d, 2) / 162);
+                const barWeight = wpm * 12;
+                const barsIn1Ton = 1000 / barWeight;
+                const barsIn2Ton = 2000 / barWeight;
+                
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-blue-50/50 transition-colors";
+                
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-900 border-l border-slate-100">
+                        ${d} <span class="text-xs text-slate-500 font-normal">مم</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-slate-700 font-semibold">
+                        ${wpm.toFixed(3)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-slate-700 font-semibold">
+                        ${barWeight.toFixed(2)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap font-bold text-blue-700 bg-blue-50/30">
+                        ${Math.round(barsIn1Ton)} <span class="text-xs font-normal">سيخ</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap font-bold text-blue-700 bg-blue-50/30">
+                        ${Math.round(barsIn2Ton)} <span class="text-xs font-normal">سيخ</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function calculateWeight() {
+            const countInput = document.getElementById('calc-count').value;
+            const lengthInput = document.getElementById('calc-length').value;
+            const diameterInput = document.getElementById('calc-diameter').value;
+            
+            const errorBox = document.getElementById('error-box');
+            const resultArea = document.getElementById('result-area');
+
+            const count = parseFloat(countInput);
+            const length = parseFloat(lengthInput);
+            const diameter = parseFloat(diameterInput);
+
+            if (isNaN(count) || isNaN(length) || isNaN(diameter) || count <= 0 || length <= 0) {
+                errorBox.classList.remove('hidden');
+                resultArea.classList.add('hidden');
+                return;
+            }
+            
+            errorBox.classList.add('hidden');
+
+            const wpm = Math.pow(diameter, 2) / 162;
+            const totalWeightKg = count * length * wpm;
+            const totalWeightTon = totalWeightKg / 1000;
+
+            document.getElementById('res-kg').innerText = totalWeightKg.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('res-ton').innerText = totalWeightTon.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 4 });
+            document.getElementById('res-details').innerText = `${count} × ${length}m × (${diameter}² / 162) = ${totalWeightKg.toFixed(2)} kg`;
+
+            resultArea.classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateTable();
+            calculateWeight();
+            calcDistribution();
+            calcLap();
+        });
+    </script>
+</body>
+</html></textarea>
+
+    <!-- الكود الثالث: حاسبة استبدال الحديد الاحترافية -->
+    <textarea id="raw-code-replace" style="display:none;"><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة استبدال الحديد الاحترافية - ECP 203</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #1a73e8; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 0; }
+        .form-group { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #dee2e6; }
+        .form-group h3 { margin-top: 0; color: #343a40; font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 8px;}
+        .row { display: flex; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 200px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; color: #495057; }
+        select, input { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-size: 15px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background-color: #1a73e8; color: white; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        button:hover { background-color: #1557b0; }
+        
+        .result-box { display: none; margin-top: 25px; }
+        .report-card { background-color: #e3f2fd; border-right: 5px solid #1a73e8; padding: 20px; border-radius: 8px; margin-bottom: 15px; }
+        .alert { padding: 15px; border-radius: 5px; margin-top: 15px; font-weight: bold; font-size: 15px; }
+        .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        
+        .details-list { margin: 0; padding: 0; list-style: none; line-height: 2; font-size: 15px; }
+        .details-list li { border-bottom: 1px dashed #bbdefb; padding: 10px 0; }
+        .details-list li:last-child { border-bottom: none; }
+        
+        .final-decision-box {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-top: 15px;
+            border-right: 6px solid #4caf50;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .final-decision-box span { color: #4caf50; font-weight: bold; }
+        .final-decision-box.warning-decision { border-right-color: #ffc107; }
+        .final-decision-box.warning-decision span { color: #ffc107; }
+        .final-decision-box.danger-decision { border-right-color: #dc3545; }
+        .final-decision-box.danger-decision span { color: #dc3545; }
+
+        canvas { background: #fff; border: 1px solid #ddd; border-radius: 5px; margin-top: 15px; width: 100%; max-width: 100%; height: auto; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);}
+        .canvas-container { text-align: center; margin-top: 20px; }
+
+        .developer-credit {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 2px dashed #ccc;
+            background-color: #f9f9f9;
+            border-radius: 0 0 12px 12px;
+        }
+        .developer-credit h4 { margin: 0 0 10px 0; color: #555; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
+        .developer-credit .name { margin: 0; color: #1a73e8; font-size: 22px; font-weight: bold; }
+        .developer-credit .title { margin: 5px 0 10px 0; color: #666; font-size: 15px; font-weight: bold;}
+        .developer-credit .email { margin: 0; color: #333; font-size: 16px; font-weight: bold; direction: ltr; display: inline-block;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📐 مستشار الشوب دروينج - استبدال الحديد وتوزيع القطاعات</h2>
+
+    <div class="form-group">
+        <h3>🏗️ بيانات العنصر الخرساني:</h3>
+        <div class="row">
+            <div class="col">
+                <label>نوع العنصر:</label>
+                <select id="element-type" onchange="toggleElementInputs()">
+                    <option value="beam">كمرة (Beam)</option>
+                    <option value="slab">سقف / بلاطة (Slab)</option>
+                    <option value="column">عمود (Column)</option>
+                    <option value="foundation">قواعد / أساسات (Foundation)</option>
+                </select>
+            </div>
+            <div class="col" id="width-container">
+                <label id="width-label">عرض القطاع (سم):</label>
+                <input type="number" id="element-width" value="25" min="10">
+            </div>
+            <div class="col">
+                <label>الغطاء (الكفر) يمين/شمال (سم):</label>
+                <input type="number" id="element-cover" value="2.5" step="0.5" min="1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <h3>1️⃣ الحديد في اللوحة (القديم):</h3>
+        <div class="row">
+            <div class="col">
+                <label id="old-count-label">العدد (في القطاع):</label>
+                <input type="number" id="old-count" value="5" min="1">
+            </div>
+            <div class="col">
+                <label>القطر (مم):</label>
+                <select id="old-dia">
+                    <option value="10">Φ 10 مم</option>
+                    <option value="12">Φ 12 مم</option>
+                    <option value="16" selected>Φ 16 مم</option>
+                    <option value="18">Φ 18 مم</option>
+                    <option value="22">Φ 22 مم</option>
+                    <option value="25">Φ 25 مم</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <h3>2️⃣ الحديد المتاح بالموقع (الجديد):</h3>
+        <div class="row">
+            <div class="col">
+                <label>القطر البديل (مم):</label>
+                <select id="new-dia">
+                    <option value="10">Φ 10 مم</option>
+                    <option value="12" selected>Φ 12 مم</option>
+                    <option value="16">Φ 16 مم</option>
+                    <option value="18">Φ 18 مم</option>
+                    <option value="22">Φ 22 مم</option>
+                    <option value="25">Φ 25 مم</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="calculateAndDraw()">احسب وطلع الخلاصة</button>
+
+    <div id="result-container" class="result-box">
+        
+        <div class="report-card">
+            <h3 style="margin-top: 0; color: #1a73e8;">📝 تقرير الحسابات الهندسي:</h3>
+            <ul class="details-list" id="calc-details"></ul>
+        </div>
+
+        <div id="alert-box" class="alert"></div>
+
+        <div id="final-decision-box" class="final-decision-box"></div>
+        
+        <div class="canvas-container">
+            <h3 style="color: #333; margin-bottom: 5px;">🎨 التوزيع البصري للحديد</h3>
+            <canvas id="sectionCanvas" width="750" height="350"></canvas>
+        </div>
+    </div>
+
+    <div class="developer-credit">
+        <h4>🛠️ Engineered & Developed by</h4>
+        <p class="name">Eng. Ahmed Sameh (Moha)</p>
+        <p class="title">Civil Engineer | Technical Office & Shop Drawing</p>
+        <p class="email">✉️ ahmedhendawe66@gmail.com</p>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123) { return false; }
+        if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) { return false; }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+    }
+
+    window.toggleElementInputs = function() {
+        let type = document.getElementById('element-type').value;
+        let widthContainer = document.getElementById('width-container');
+        let widthLabel = document.getElementById('width-label');
+        let countLabel = document.getElementById('old-count-label');
+        let coverInput = document.getElementById('element-cover');
+
+        if (type === 'slab') {
+            widthContainer.style.display = 'none';
+            countLabel.innerHTML = 'العدد (في المتر الطولي):';
+            coverInput.value = 2.0; 
+        } else if (type === 'foundation') {
+            widthContainer.style.display = 'none';
+            countLabel.innerHTML = 'العدد (في المتر الطولي):';
+            coverInput.value = 5.0;
+        } else if (type === 'column') {
+            widthContainer.style.display = 'block';
+            widthLabel.innerHTML = 'طول ضلع العمود (سم):';
+            countLabel.innerHTML = 'العدد (في هذا الضلع):';
+            coverInput.value = 2.5; 
+        } else {
+            widthContainer.style.display = 'block';
+            widthLabel.innerHTML = 'عرض الكمرة (سم):';
+            countLabel.innerHTML = 'العدد (في القطاع السفلي):';
+            coverInput.value = 2.5; 
+        }
+    }
+
+    function getBarArea(diameter) {
+        let r = (diameter / 10) / 2;
+        return Math.PI * Math.pow(r, 2);
+    }
+
+    window.calculateAndDraw = function() {
+        let elementType = document.getElementById('element-type').value;
+        let oldCount = parseFloat(document.getElementById('old-count').value);
+        let oldDia = parseFloat(document.getElementById('old-dia').value);
+        let newDia = parseFloat(document.getElementById('new-dia').value);
+        let elementWidth = (elementType === 'slab' || elementType === 'foundation') ? 100 : parseFloat(document.getElementById('element-width').value);
+        let coverCm = parseFloat(document.getElementById('element-cover').value);
+
+        if (!oldCount || oldCount <= 0 || !elementWidth || elementWidth <= 0 || !coverCm || coverCm < 0) {
+            alert("برجاء إدخال أرقام صحيحة.");
+            return;
+        }
+
+        let oldBarArea = getBarArea(oldDia);
+        let totalReqArea = oldCount * oldBarArea;
+        let newBarArea = getBarArea(newDia);
+        let exactNewCount = totalReqArea / newBarArea;
+        let finalCount = Math.ceil(exactNewCount);
+
+        let noteHtml = '';
+        if ((elementType === 'slab' || elementType === 'foundation') && finalCount < 5) {
+            finalCount = 5;
+            noteHtml = ' <span style="color:#d32f2f; font-weight:bold;">(تم رفع العدد لـ 5 أسياخ لتقليل المسافة لـ 20سم طبقاً للكود)</span>';
+        }
+
+        let providedArea = finalCount * newBarArea;
+        let newDiaCm = newDia / 10;
+        
+        document.getElementById('calc-details').innerHTML = `
+            <li>📌 مساحة السيخ الواحد (قطر ${oldDia} مم): <strong>${oldBarArea.toFixed(2)} سم²</strong></li>
+            <li>📊 المساحة الكلية المطلوبة للتصميم: (${oldCount} أسياخ × ${oldBarArea.toFixed(2)}) = <strong>${totalReqArea.toFixed(2)} سم²</strong></li>
+            <li>🔄 مساحة السيخ البديل (قطر ${newDia} مم): <strong>${newBarArea.toFixed(2)} سم²</strong></li>
+            <li>🧮 العدد النظري المطلوب: (${totalReqArea.toFixed(2)} ÷ ${newBarArea.toFixed(2)}) = <strong>${exactNewCount.toFixed(2)} سيخ</strong></li>
+            <li>⚠️ التقريب الهندسي: تم تقريب العدد بالزيادة لضمان الأمان وتغطية المساحة المطلوبة.${noteHtml}</li>
+            <li>✅ المساحة الفعلية التي سيتم تنفيذها: (${finalCount} أسياخ × ${newBarArea.toFixed(2)}) = <strong>${providedArea.toFixed(2)} سم²</strong> (وهي أكبر من أو تساوي المساحة المطلوبة).</li>
+            <li>📐 الكفر الخرساني المستخدم في الحسابات: <strong>${coverCm} سم</strong></li>
+        `;
+
+        let maxBarsPerLayer = 1;
+        if (elementType === 'beam') {
+            let availableW = elementWidth - (2 * coverCm);
+            maxBarsPerLayer = Math.floor((availableW + 3.0) / (newDiaCm + 3.0));
+            if (maxBarsPerLayer < 1) maxBarsPerLayer = 1;
+        } else {
+            maxBarsPerLayer = finalCount;
+        }
+
+        let remainingBars = finalCount;
+        let distribution = [];
+        while(remainingBars > 0) {
+            let barsInThisLayer = Math.min(remainingBars, maxBarsPerLayer);
+            distribution.push(barsInThisLayer);
+            remainingBars -= barsInThisLayer;
+        }
+
+        let totalBarsWidthAll = finalCount * newDiaCm;
+        let availableClearWidthAll = elementWidth - (2 * coverCm) - totalBarsWidthAll;
+        let clearSpacingSingleLayer = finalCount > 1 ? availableClearWidthAll / (finalCount - 1) : availableClearWidthAll;
+        let centerToCenter = finalCount > 1 ? clearSpacingSingleLayer + newDiaCm : 0;
+
+        let alertBox = document.getElementById('alert-box');
+        let decisionBox = document.getElementById('final-decision-box');
+        alertBox.className = 'alert';
+        decisionBox.className = 'final-decision-box';
+        let finalDecisionText = '';
+
+        if (elementType === 'beam') {
+            if (clearSpacingSingleLayer < 3.0 && finalCount > maxBarsPerLayer) {
+                alertBox.classList.add('alert-danger');
+                alertBox.innerHTML = `⚠️ <strong>خطر تعشيش!</strong> المسافة الصافية لو رصيناهم في صف واحد هتبقى أقل من 3.0 سم (تحديث كود 2025).`;
+                decisionBox.classList.add('warning-decision');
+                
+                let distText = distribution.map((count, index) => `▶ الصف ${index + 1} من أسفل ( ${count} أسياخ )`).join('<br>');
+                finalDecisionText = `الخلاصة: استخدم عدد <span>${finalCount} أسياخ قطر ${newDia} مم</span> مقسمة على <span>${distribution.length} صفوف</span> كالتالي:<br><br>${distText}<br><br>📌 ملاحظة: الأسياخ في الصفوف العليا يجب أن ترص مباشرة فوق أسياخ الصف السفلي لترك مسار لمرور الخرسانة. وضع "تخانة" بين كل صف والذي يليه.`;
+            } else {
+                alertBox.classList.add('alert-success');
+                alertBox.innerHTML = `✅ <strong>التوزيع آمن!</strong> المسافة الصافية تسمح بمرور الخرسانة بدون تعشيش.`;
+                finalDecisionText = `الخلاصة: استخدم عدد <span>${finalCount} أسياخ قطر ${newDia} مم</span> مرصوصة في <span>صف واحد</span>.`;
+            }
+        } 
+        else if (elementType === 'slab' || elementType === 'foundation') {
+            let elementName = elementType === 'foundation' ? 'القاعدة' : 'السقف';
+            if (clearSpacingSingleLayer < 3.0) {
+                alertBox.classList.add('alert-danger');
+                alertBox.innerHTML = `⚠️ <strong>خطر زحام!</strong> الحديد كتير جداً عالمتر. ${elementName} هيعشش.`;
+                decisionBox.classList.add('danger-decision');
+                finalDecisionText = `يُمنع الرص على صفين في الأسقف والقواعد. <span>نرفض الاستبدال</span> بقطر ${newDia} مم، ويجب توفير قطر أكبر.`;
+            } else if (centerToCenter > 20) {
+                alertBox.classList.add('alert-danger');
+                alertBox.innerHTML = `⚠️ <strong>خطر شروخ!</strong> المسافة كبيرة.`;
+                finalDecisionText = `الخلاصة: استخدم <span>${finalCount} أسياخ قطر ${newDia} مم</span> في المتر الطولي.`;
+            } else {
+                alertBox.classList.add('alert-success');
+                alertBox.innerHTML = `✅ <strong>التوزيع آمن!</strong> مطابق لاشتراطات الشروخ والتعشيش.`;
+                finalDecisionText = `الخلاصة: استخدم <span>${finalCount} أسياخ قطر ${newDia} مم</span> في المتر الطولي.`;
+            }
+        }
+        else if (elementType === 'column') {
+            if (centerToCenter > 25) {
+                alertBox.classList.add('alert-danger');
+                alertBox.innerHTML = `⚠️ <strong>خطر انبعاج (Buckling)!</strong> المسافة بين أسياخ العمود زادت عن 25 سم.`;
+                decisionBox.classList.add('warning-decision');
+                finalDecisionText = `الخلاصة: استخدم <span>${finalCount} أسياخ قطر ${newDia} مم</span> (ويفضل زيادة سيخ إضافي لمنع الانبعاج).`;
+            } else {
+                alertBox.classList.add('alert-success');
+                alertBox.innerHTML = `✅ <strong>التوزيع آمن ومطابق للكود.</strong>`;
+                finalDecisionText = `الخلاصة: استخدم <span>${finalCount} أسياخ قطر ${newDia} مم</span> في هذا الضلع.`;
+            }
+        }
+
+        decisionBox.innerHTML = finalDecisionText;
+        document.getElementById('result-container').style.display = 'block';
+        
+        drawMultiLayerSection(elementWidth, coverCm, distribution, newDiaCm, 3.0);
+    }
+
+    function drawMultiLayerSection(widthCm, coverCm, distribution, barDiaCm, reqSpacingCm) {
+        const canvas = document.getElementById('sectionCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let padding = 40;
+        let drawWidth = canvas.width - (padding * 2);
+        let scale = drawWidth / widthCm; 
+        
+        let boxHeight = 160 + (distribution.length - 1) * 40; 
+        let startX = padding;
+        let startY = 40;
+
+        ctx.fillStyle = "#e0e0e0";
+        ctx.fillRect(startX, startY, widthCm * scale, boxHeight);
+        ctx.strokeStyle = "#999";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(startX, startY, widthCm * scale, boxHeight);
+
+        let stirrupX = startX + (coverCm * scale);
+        let stirrupY = startY + (coverCm * scale);
+        let stirrupW = (widthCm - (2 * coverCm)) * scale;
+        let stirrupH = boxHeight - (2 * coverCm * scale);
+        
+        ctx.strokeStyle = "#4caf50";
+        ctx.setLineDash([5, 5]); 
+        ctx.lineWidth = 2;
+        ctx.strokeRect(stirrupX, stirrupY, stirrupW, stirrupH);
+        ctx.setLineDash([]); 
+
+        let barRadiusPx = (barDiaCm * scale) / 2;
+        if(barRadiusPx < 4) barRadiusPx = 4; 
+        if(barRadiusPx > 16) barRadiusPx = 16;
+        let spacerDiaCm = reqSpacingCm; 
+        let spacerRadiusPx = (spacerDiaCm * scale) / 2;
+        
+        let bottomYPos = stirrupY + stirrupH - barRadiusPx - 2; 
+
+        let maxBarsInFirstLayer = distribution[0];
+        let totalBarsWidthFirstLayer = maxBarsInFirstLayer * barDiaCm;
+        let availableClearWidthFirstLayer = widthCm - (2 * coverCm) - totalBarsWidthFirstLayer;
+        let clearSpacingFirstLayer = maxBarsInFirstLayer > 1 ? availableClearWidthFirstLayer / (maxBarsInFirstLayer - 1) : availableClearWidthFirstLayer;
+        let firstBarCenterBase = stirrupX + (barDiaCm * scale / 2);
+        let stepPxBase = maxBarsInFirstLayer > 1 ? (clearSpacingFirstLayer + barDiaCm) * scale : 0;
+        
+        if (maxBarsInFirstLayer === 1) {
+            firstBarCenterBase = stirrupX + (stirrupW / 2);
+        }
+
+        for (let layer = 0; layer < distribution.length; layer++) {
+            let countInLayer = distribution[layer];
+            let currentYPos = bottomYPos - (layer * (barDiaCm + spacerDiaCm) * scale);
+            
+            if (layer > 0) {
+                ctx.fillStyle = "#1a73e8"; 
+                let spacerY = currentYPos + barRadiusPx + spacerRadiusPx;
+                ctx.fillRect(stirrupX + 10, spacerY - spacerRadiusPx, stirrupW - 20, spacerRadiusPx * 2);
+                ctx.fillStyle = "#fff";
+                ctx.font = "12px Tahoma";
+                ctx.fillText("تخانة", stirrupX + stirrupW/2, spacerY + 4);
+            }
+
+            ctx.fillStyle = "#d32f2f";
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < countInLayer; i++) {
+                let cx;
+                if (countInLayer === maxBarsInFirstLayer) {
+                    cx = firstBarCenterBase + (i * stepPxBase);
+                } else {
+                    if (i < Math.floor(countInLayer / 2)) {
+                        cx = firstBarCenterBase + (i * stepPxBase); 
+                    } else {
+                        let rightIndex = maxBarsInFirstLayer - 1 - (countInLayer - 1 - i);
+                        cx = firstBarCenterBase + (rightIndex * stepPxBase); 
+                    }
+                }
+
+                ctx.beginPath();
+                ctx.arc(cx, currentYPos, barRadiusPx, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            if (layer === 0 && maxBarsInFirstLayer > 1) {
+                let bar1Edge = firstBarCenterBase + barRadiusPx;
+                let bar2Edge = firstBarCenterBase + stepPxBase - barRadiusPx;
+                drawArrow(ctx, bar1Edge, currentYPos - 25, bar2Edge, currentYPos - 25);
+                ctx.fillStyle = "#d32f2f";
+                ctx.font = "14px Tahoma";
+                ctx.fillText(`صافي ${clearSpacingFirstLayer.toFixed(1)}سم`, (bar1Edge + bar2Edge)/2, currentYPos - 30);
+            }
+        }
+
+        ctx.fillStyle = "#1a73e8";
+        ctx.font = "14px Tahoma";
+        drawArrow(ctx, startX, bottomYPos - 40, stirrupX, bottomYPos - 40);
+        ctx.fillText(`كفر ${coverCm}سم`, startX + (coverCm*scale)/2, bottomYPos - 45);
+
+        ctx.fillStyle = "#333";
+        ctx.font = "bold 16px Tahoma";
+        drawArrow(ctx, startX, 20, startX + widthCm * scale, 20);
+        ctx.fillText(`العرض الكلي = ${widthCm} سم`, startX + (widthCm * scale)/2, 12);
+    }
+
+    function drawArrow(ctx, fromx, fromy, tox, toy) {
+        var headlen = 8;
+        var dx = tox - fromx;
+        var dy = toy - fromy;
+        var angle = Math.atan2(dy, dx);
+        ctx.beginPath();
+        ctx.moveTo(fromx, fromy);
+        ctx.lineTo(tox, toy);
+        ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+        ctx.moveTo(tox, toy);
+        ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+        ctx.strokeStyle = '#555';
+        ctx.stroke();
+    }
+</script>
+
+</body>
+</html></textarea>
+
+    <!-- سكريبت تشغيل الواجهة الرئيسية وتحميل الأقسام -->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('frame-concrete').srcdoc = document.getElementById('raw-code-concrete').value;
+            document.getElementById('frame-weights').srcdoc = document.getElementById('raw-code-weights').value;
+            document.getElementById('frame-replace').srcdoc = document.getElementById('raw-code-replace').value;
+        });
+
+        function openSection(frameId, titleText) {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('tool-viewer').style.display = 'flex';
+            document.getElementById('active-tool-title').innerText = titleText;
+
+            document.querySelectorAll('.tool-iframe').forEach(function(f) {
+                f.classList.remove('active');
+            });
+            document.getElementById(frameId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function goHome() {
+            document.getElementById('tool-viewer').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+</body>
+</html>
